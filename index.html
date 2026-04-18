@@ -1,19 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>tuPresenzIA</title>
-  <meta name="description" content="tuPresenzIA builds conversion-focused bilingual landing pages for independent professionals.">
-  <meta http-equiv="refresh" content="0; url=./eng/index.html">
+  <meta name="description" content="tuPresenzIA crea landing pages bilingües enfocadas en conversión para profesionales independientes.">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QMNMT5FV4G"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QMNMT5FV4G');
+  </script>
+  <meta http-equiv="refresh" content="0; url=./spn/index.html">
   <script>
     (function () {
-      var prefersSpanish = (navigator.language || "").toLowerCase().indexOf("es") === 0;
-      window.location.replace(prefersSpanish ? "./spn/index.html" : "./eng/index.html");
+      window.location.replace("./spn/index.html");
     }());
   </script>
 </head>
 <body>
-  <p>If you are not redirected automatically, continue to <a href="./eng/index.html">English</a> or <a href="./spn/index.html">Spanish</a>.</p>
+  <p>Si no eres redirigido automáticamente, continúa en <a href="./spn/index.html">Español</a> o <a href="./eng/index.html">English</a>.</p>
 </body>
 </html>

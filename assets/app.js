@@ -41,6 +41,109 @@ document.addEventListener("DOMContentLoaded", function () {
     var submitButton = form.querySelector('button[type="submit"]');
     var progressButton = form.querySelector("[data-progress-button]");
     var progressButtonLabel = form.querySelector("[data-progress-button-label]");
+    var dynamicPlaceholderTimers = [];
+
+    var clearDynamicPlaceholderTimers = function () {
+      dynamicPlaceholderTimers.forEach(function (timerId) {
+        window.clearTimeout(timerId);
+      });
+      dynamicPlaceholderTimers = [];
+    };
+
+    var queueDynamicPlaceholderTimer = function (callback, delay) {
+      var timerId = window.setTimeout(callback, delay);
+      dynamicPlaceholderTimers.push(timerId);
+      return timerId;
+    };
+
+    var setupDynamicPlaceholder = function (field) {
+      var rawValues = field.getAttribute("data-dynamic-placeholders");
+      var values;
+      var activeIndex = 0;
+      var charIndex = 0;
+      var deleting = false;
+      var paused = false;
+
+      if (!rawValues) {
+        return;
+      }
+
+      values = rawValues.split("|").map(function (item) {
+        return item.trim();
+      }).filter(Boolean);
+
+      if (!values.length) {
+        return;
+      }
+
+      var tick = function () {
+        var currentValue;
+        var nextDelay;
+
+        if (paused || String(field.value || "").trim() !== "") {
+          return;
+        }
+
+        currentValue = values[activeIndex];
+
+        if (!deleting) {
+          charIndex += 1;
+          field.setAttribute("placeholder", currentValue.slice(0, charIndex));
+
+          if (charIndex >= currentValue.length) {
+            deleting = true;
+            nextDelay = 1350;
+          } else {
+            nextDelay = 75;
+          }
+        } else {
+          charIndex -= 1;
+          field.setAttribute("placeholder", currentValue.slice(0, Math.max(charIndex, 0)));
+
+          if (charIndex <= 0) {
+            deleting = false;
+            activeIndex = (activeIndex + 1) % values.length;
+            nextDelay = 280;
+          } else {
+            nextDelay = 40;
+          }
+        }
+
+        queueDynamicPlaceholderTimer(tick, nextDelay);
+      };
+
+      field.addEventListener("focus", function () {
+        paused = true;
+      });
+
+      field.addEventListener("blur", function () {
+        if (String(field.value || "").trim() !== "") {
+          return;
+        }
+
+        paused = false;
+        clearDynamicPlaceholderTimers();
+        queueDynamicPlaceholderTimer(tick, 180);
+      });
+
+      field.addEventListener("input", function () {
+        clearDynamicPlaceholderTimers();
+
+        if (String(field.value || "").trim() !== "") {
+          field.setAttribute("placeholder", "");
+          return;
+        }
+
+        paused = false;
+        activeIndex = 0;
+        charIndex = 0;
+        deleting = false;
+        queueDynamicPlaceholderTimer(tick, 180);
+      });
+
+      field.setAttribute("placeholder", "");
+      queueDynamicPlaceholderTimer(tick, 320);
+    };
 
     var getActiveRequiredFields = function () {
       return Array.from(form.querySelectorAll("input[required], select[required], textarea[required]")).filter(function (field) {
@@ -62,14 +165,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
       indicator = label.querySelector(".field-label__status");
 
+      if (isComplete) {
+        if (indicator) {
+          indicator.remove();
+        }
+        return;
+      }
+
       if (!indicator) {
         indicator = document.createElement("span");
         indicator.className = "field-label__status";
         indicator.setAttribute("aria-hidden", "true");
         label.appendChild(indicator);
       }
-
-      indicator.classList.toggle("is-complete", isComplete);
     };
 
     var renderProgress = function () {
@@ -145,6 +253,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       field.addEventListener("input", updateFormState);
       field.addEventListener("change", updateFormState);
+    });
+
+    form.querySelectorAll("input[data-dynamic-placeholders]").forEach(function (field) {
+      setupDynamicPlaceholder(field);
     });
 
     syncSubmitState();
