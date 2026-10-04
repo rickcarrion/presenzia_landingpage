@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>tuPresenzIA</title>
-  <meta name="description" content="tuPresenzIA crea landing pages bilingües enfocadas en conversión para profesionales independientes.">
+  <meta name="description" content="tuPresenzIA crea tu página web profesional y cada mes te muestra cuántos clientes te trajo.">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-QMNMT5FV4G"></script>
   <script>
@@ -14,12 +14,13 @@
 
     gtag('config', 'G-QMNMT5FV4G');
   </script>
-  <meta http-equiv="refresh" content="0; url=./spn/index.html">
   <script>
     (function () {
-      window.location.replace("./spn/index.html");
+      var language = String(navigator.language || "es").toLowerCase();
+      window.location.replace(language.indexOf("en") === 0 ? "./eng/index.html" : "./spn/index.html");
     }());
   </script>
+  <noscript><meta http-equiv="refresh" content="0; url=./spn/index.html"></noscript>
 </head>
 <body>
   <p>Si no eres redirigido automáticamente, continúa en <a href="./spn/index.html">Español</a> o <a href="./eng/index.html">English</a>.</p>

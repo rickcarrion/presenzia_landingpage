@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-default-country="US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tuPresenzIA | AI Landing Page for Independent Professionals</title>
-  <meta name="description" content="AI-powered website and landing page design for independent professionals who want consistent leads without relying only on referrals.">
+  <title>tuPresenzIA | A professional website and a monthly report of the clients it brought you</title>
+  <meta name="description" content="We build your professional website and show you every month, in plain language, how much you invested, how many people contacted you and how many became clients.">
+  <link rel="alternate" hreflang="es" href="../spn/index.html">
+  <link rel="alternate" hreflang="en" href="../eng/index.html">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-QMNMT5FV4G"></script>
   <script>
@@ -14,311 +16,405 @@
 
     gtag('config', 'G-QMNMT5FV4G');
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800&display=swap">
+  <script>document.documentElement.classList.add("is-locating");setTimeout(function(){document.documentElement.classList.remove("is-locating");},4000);</script>
   <link rel="stylesheet" href="../assets/styles.css">
   <script defer src="../assets/app.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <a class="promo-bar" data-promo href="#contacto">Halloween promotion: your website at 55% off, for <span data-price="promoSetup">$135</span> <span data-price="currency">USD</span> until October 31.</a>
+
   <header class="site-header">
-    <div class="site-header__inner">
-      <a class="brand-chip" href="#top" aria-label="tuPresenzIA home">
-        <span class="brand-chip__title">tuPresenz<span>IA</span></span>
-        <span class="brand-chip__meta">Digital presence / Artificial intelligence</span>
-      </a>
-      <nav class="lang-switch" aria-label="Language switch">
-        <a class="lang-option is-active" href="../eng/index.html" aria-current="page">English</a>
-        <a class="lang-option" href="../spn/index.html">Spanish</a>
+    <div class="container site-header__inner">
+      <a class="wordmark" href="#top" aria-label="tuPresenzIA, home">tuPresenz<span>IA</span></a>
+      <nav class="site-nav" aria-label="Sections">
+        <a href="#como-funciona">How it works</a>
+        <a href="#precios">Pricing</a>
+        <a href="#preguntas">Questions</a>
       </nav>
+      <nav class="lang-switch" aria-label="Language">
+        <a class="lang-option" href="../spn/index.html" lang="es" aria-label="Español">ES</a>
+        <a class="lang-option is-active" href="../eng/index.html" aria-current="page" lang="en">EN</a>
+      </nav>
+      <a class="button button--primary button--small" href="#contacto"><span data-promo>Get the promotion</span><span data-no-promo>Get your free demo</span></a>
     </div>
   </header>
 
-  <main id="top">
-    <section class="hero">
-      <div class="container">
-        <div class="hero-copy" data-reveal>
-          <p class="eyebrow">Done-for-you digital presence</p>
-          <div class="hero-brand">tuPresenz<span>IA</span></div>
-          <p class="hero-tagline">Your digital presence / Artificial intelligence</p>
-          <h1 class="hero-title">We turn your expertise into an online presence that <span class="accent-text">attracts clients</span> in days, not months.</h1>
-          <p class="hero-subtitle">AI-powered websites and landing pages for independent professionals. Generate steady leads without depending only on referrals.</p>
+  <main id="content">
+    <section class="hero" id="top">
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <h1>Your website working for you. And every month you'll know how many clients it brought.</h1>
+          <p class="lead">We build your professional website and handle everything technical. Every month you get a simple report: how much you invested, how many people contacted you and how many became clients.</p>
           <div class="button-row">
-            <a class="button button--primary" href="#contact">Build your presence</a>
-            <a class="button button--secondary" href="#process">See how it works</a>
+            <a class="button button--primary" href="#contacto"><span data-promo>Get the promotion</span><span data-no-promo>Get your free demo</span></a>
+            <a class="button button--ghost" href="#precios">See pricing</a>
           </div>
+          <p class="hero__audience">For psychologists, nutritionists, lawyers, physical therapists, coaches and other independent professionals.</p>
         </div>
 
-        <div class="hero-stats">
-          <article class="stat-card" data-reveal style="--delay: 80ms;">
-            <span class="stat-card__value">Days</span>
-            <p class="stat-card__label">Not months. Your professional presence launches fast.</p>
-          </article>
-          <article class="stat-card" data-reveal style="--delay: 160ms;">
-            <span class="stat-card__value">100%</span>
-            <p class="stat-card__label">Done-for-you setup. No technical work on your side.</p>
-          </article>
-          <article class="stat-card" data-reveal style="--delay: 240ms;">
-            <span class="stat-card__value">Monthly</span>
-            <p class="stat-card__label">Real lead and traffic reporting you can actually read.</p>
-          </article>
-        </div>
-      </div>
-
-      <div class="hero-wave" aria-hidden="true">
-        <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
-          <path fill="currentColor" d="M0,70 C190,140 400,142 720,104 C1010,70 1232,52 1440,86 L1440,140 L0,140 Z"></path>
-        </svg>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">The problem</p>
-          <h2 class="section-title">Does this sound familiar?</h2>
-        </div>
-
-        <div class="card-grid">
-          <article class="info-card" data-reveal>
-            <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 15l4-4 4 4 6-8"></path><path d="M17 7h2v2"></path></svg></span>
-            <h3 class="info-card__title">Unpredictable revenue</h3>
-            <p class="info-card__copy">A slow month can disrupt your cash flow. Depending on referrals leaves your pipeline outside your control.</p>
-          </article>
-          <article class="info-card" data-reveal style="--delay: 80ms;">
-            <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"></path><path d="M16 13a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"></path><path d="M4 18c0-2.2 1.8-4 4-4"></path><path d="M12 18c0-2.2 1.8-4 4-4"></path></svg></span>
-            <h3 class="info-card__title">Only word of mouth</h3>
-            <p class="info-card__copy">The same tactic may have worked for years. It works until it does not, and there is no reliable backup source of demand.</p>
-          </article>
-          <article class="info-card" data-reveal style="--delay: 160ms;">
-            <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7v5"></path><path d="M12 16h.01"></path><path d="M10.3 3.9 3.9 10.3a2.2 2.2 0 0 0 0 3.1l6.4 6.4a2.2 2.2 0 0 0 3.1 0l6.4-6.4a2.2 2.2 0 0 0 0-3.1l-6.4-6.4a2.2 2.2 0 0 0-3.1 0Z"></path></svg></span>
-            <h3 class="info-card__title">No online presence</h3>
-            <p class="info-card__copy">Potential clients search for solutions online first. If your practice is invisible, those opportunities go somewhere else every day.</p>
-          </article>
-        </div>
-
-        <blockquote class="quote-card" data-reveal>
-          <p class="quote-card__text">"Most independent professionals still get clients the same way they did twenty years ago: referrals and word of mouth."</p>
-          <p class="quote-card__meta">That means you still do not control when the next client arrives.</p>
-        </blockquote>
-      </div>
-    </section>
-
-    <section class="section section--mist">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">The solution</p>
-          <h2 class="section-title">A professional presence that actually generates leads</h2>
-          <p class="section-copy">We build a polished website and a conversion-focused landing page for your practice, launch it fast, and make the results measurable.</p>
-        </div>
-
-        <div class="split-layout">
-          <div class="media-panel" data-reveal>
-            <div class="browser-shell">
-              <div class="browser-top" aria-hidden="true"><span></span><span></span><span></span></div>
-              <div class="preview-grid">
-                <div class="preview-copy-box">
-                  <div class="preview-kicker">AI landing page</div>
-                  <div class="preview-headline">Clear offer. Strong trust. Frictionless contact.</div>
-                  <p class="preview-text">A premium message for professionals who need a faster way to turn expertise into demand.</p>
-                  <div class="preview-actions" aria-hidden="true"><span class="preview-pill preview-pill--primary"></span><span class="preview-pill preview-pill--secondary"></span></div>
-                  <div class="preview-chart" aria-hidden="true"><span style="height:42%;"></span><span style="height:58%;"></span><span style="height:76%;"></span><span style="height:68%;"></span><span style="height:92%;"></span></div>
-                </div>
-                <div class="preview-side">
-                  <div class="preview-side-card"><strong>New lead</strong><p>Maria Ortega requested a consultation from your landing page.</p></div>
-                  <div class="preview-side-card"><strong>Monthly report</strong><p>Traffic, inquiries, and growth in one clear view.</p></div>
-                </div>
-              </div>
-              <div class="floating-card"><strong>Live in days</strong><span>Launch faster than a traditional agency workflow.</span></div>
+        <figure>
+          <div class="report">
+            <div class="report__head">
+              <strong>October report</strong>
+              <span>Laura, psychologist</span>
             </div>
+            <div class="report__row">
+              <span class="report__label">You invested</span>
+              <span class="report__value"><span data-price="monthly">$79</span> <small data-price="currency">USD</small></span>
+            </div>
+            <div class="report__row">
+              <span class="report__label">Contacted you</span>
+              <span class="report__value"><span data-count="14" data-count-delay="900">14</span> <small>people</small></span>
+            </div>
+            <div class="report__row report__row--clients">
+              <span class="report__label">Became clients</span>
+              <span class="report__value" data-count="3" data-count-delay="1450">3</span>
+            </div>
+            <p class="report__sum">Each new client cost you about <span data-price="perClient">$26</span>.</p>
           </div>
+          <figcaption class="report-note">Sample report. Your numbers will depend on your profession and your city.</figcaption>
+        </figure>
+      </div>
+    </section>
 
+    <section class="band band--paper">
+      <div class="container">
+        <div class="band-head">
+          <h2>How many clients did your website bring you last month?</h2>
+          <p class="lead">If you don't know, it's not your fault. Most professionals are never shown.</p>
+        </div>
+        <ul class="pains">
+          <li>
+            <h3>You don't measure results</h3>
+            <p>You don't know how many people visit your website, how many write to you or how many end up hiring you.</p>
+          </li>
+          <li>
+            <h3>You invest blind</h3>
+            <p>You pay for the website or for ads without knowing what works or whether the money is well spent.</p>
+          </li>
+          <li>
+            <h3>You have no time for the technical side</h3>
+            <p>Learning marketing and analytics is not your job. Your job is looking after your clients.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container">
+        <div class="band-head">
+          <h2>It works if you've tried before, and if you're just starting</h2>
+        </div>
+        <div class="paths">
           <div>
-            <div class="feature-stack">
-              <div class="feature-item" data-reveal>
-                <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"></path></svg></span>
-                <div><h3 class="feature-item__title">Fast and tailored</h3><p class="feature-item__copy">We use AI to create your presence in days, not months, while still tailoring the message to your practice and ideal client.</p></div>
-              </div>
-              <div class="feature-item" data-reveal style="--delay: 90ms;">
-                <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 16 0"></path><path d="M12 12l4-4"></path><path d="M12 12v6"></path></svg></span>
-                <div><h3 class="feature-item__title">Automatic lead capture</h3><p class="feature-item__copy">We configure forms and contact flows so new prospects can find you and reach you directly without technical effort.</p></div>
-              </div>
-              <div class="feature-item" data-reveal style="--delay: 180ms;">
-                <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h16"></path><path d="M7 15v-4"></path><path d="M12 15V7"></path><path d="M17 15v-7"></path></svg></span>
-                <div><h3 class="feature-item__title">Measurable results</h3><p class="feature-item__copy">Every month you receive a simple report showing how many people found you, how many leads came in, and how your presence is growing.</p></div>
-              </div>
-              <div class="feature-item" data-reveal style="--delay: 270ms;">
-                <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 12.5 10 15l7-7"></path><path d="M12 21c4.4 0 8-3.6 8-8V7l-8-4-8 4v6c0 4.4 3.6 8 8 8Z"></path></svg></span>
-                <div><h3 class="feature-item__title">100% done-for-you</h3><p class="feature-item__copy">No builders to learn, no plugins to manage, no back-and-forth with multiple vendors. You stay focused on client work.</p></div>
-              </div>
-            </div>
-
-            <div class="compare-band" data-reveal>
-              <h3>Unlike hiring a traditional agency or relying on a generic template...</h3>
-              <p>We deliver a professional presence in days and prove its value each month with an actual lead report.</p>
-              <div class="chip-row"><span class="outline-chip">Faster</span><span class="outline-chip">More tailored</span><span class="outline-chip">Results you can track</span></div>
-            </div>
+            <h3>You already invested and saw no results</h3>
+            <p>You paid for a website or ads and never learned what they gave you back. This time you'll see the numbers every month, explained without jargon.</p>
+          </div>
+          <div>
+            <h3>This is your first website</h3>
+            <p>You don't know where to begin or how much to invest. You start at a low cost and learn to decide with data from day one.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="band band--paper" id="como-funciona">
       <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">What is included</p>
-          <h2 class="section-title">Everything you need to attract clients online</h2>
-          <p class="section-copy">A complete system built around visibility, conversion, and proof of performance.</p>
+        <div class="band-head">
+          <h2>How it works</h2>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>We talk</h3>
+            <p>You tell us about your practice and your clients, and we show you a free demo of what your website would look like.</p>
+          </li>
+          <li>
+            <h3>We build your website</h3>
+            <p>We build it with artificial intelligence, so it's ready in days and costs less. It includes a WhatsApp button and a contact form.</p>
+          </li>
+          <li>
+            <h3>We measure every contact</h3>
+            <p>We set everything up to record how many people visit your website and how many write to you. You don't touch anything technical.</p>
+          </li>
+          <li>
+            <h3>You get your report</h3>
+            <p>Every month we ask you on WhatsApp how many contacts became clients, and we send you the full summary.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container">
+        <div class="band-head">
+          <h2>What's included</h2>
+          <p class="lead">Everything your website needs to bring you clients, and for you to be able to check that it does.</p>
+        </div>
+        <dl class="included">
+          <div>
+            <dt>Professional website</dt>
+            <dd>Tailored to your profession and built to look good on a phone.</dd>
+          </div>
+          <div>
+            <dt>WhatsApp and contact form</dt>
+            <dd>Visitors can write to you in one tap, and every contact is recorded.</dd>
+          </div>
+          <div>
+            <dt>Domain, hosting and maintenance</dt>
+            <dd>Your website always online and up to date, without you looking after it.</dd>
+          </div>
+          <div>
+            <dt>Presence on Google</dt>
+            <dd>We work so that people searching for your service in your city can find you, including your Google Business profile.</dd>
+          </div>
+          <div>
+            <dt>Measurement set up</dt>
+            <dd>Google Analytics ready to count visits and contacts from day one.</dd>
+          </div>
+          <div>
+            <dt>Monthly report</dt>
+            <dd>How much you invested, how many people contacted you and how many became clients.</dd>
+          </div>
+          <div>
+            <dt>Social media advertising</dt>
+            <dd>If you want to reach more people, we create your promotions and run your ads on Instagram and Facebook. What you spend shows up in your report, with what worked and what didn't.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="band band--blue" id="precios">
+      <div class="container pricing">
+        <div class="pricing__intro">
+          <h2>Clear pricing, based on your country</h2>
+          <p class="lead">One payment to build your website and a monthly fee that covers everything else.</p>
+          <label class="country-picker">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>
+            <span>Prices for</span>
+            <select data-country-select aria-label="Country or region">
+              <option value="EC">Ecuador</option>
+              <option value="MX">Mexico</option>
+              <option value="US" selected>United States</option>
+              <option value="CA">Canada</option>
+              <option value="EU">Europe</option>
+              <option value="LATAM">Rest of Latin America</option>
+              <option value="OTHER">Other country</option>
+            </select>
+          </label>
+          <p class="pricing__other">We detect your country automatically. If it is wrong, change it here.</p>
         </div>
 
-        <div class="card-grid">
-          <article class="service-card" data-reveal><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M4 12h16"></path><path d="M12 4a13 13 0 0 1 0 16"></path><path d="M12 4a13 13 0 0 0 0 16"></path></svg></span><h3 class="service-card__title">Landing page</h3><p class="service-card__copy">A conversion-focused page with a clear offer, trust signals, and a direct response path.</p></article>
-          <article class="service-card" data-reveal style="--delay: 80ms;"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14v10H8l-3 3V6Z"></path></svg></span><h3 class="service-card__title">Lead capture system</h3><p class="service-card__copy">Forms and contact flows that collect new prospect details and send them straight to you.</p></article>
-          <article class="service-card" data-reveal style="--delay: 160ms;"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7z"></path><path d="M15 3v5h5"></path><path d="M10 12h6"></path><path d="M10 16h6"></path></svg></span><h3 class="service-card__title">AI website</h3><p class="service-card__copy">A polished professional site covering who you are, what you do, and how clients can contact you.</p></article>
-          <article class="service-card" data-reveal><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 16l4-4 3 3 7-7"></path><path d="M16 8h3v3"></path></svg></span><h3 class="service-card__title">Monthly report</h3><p class="service-card__copy">A simple recurring report showing traffic, leads, and whether your investment is producing demand.</p></article>
-          <article class="service-card" data-reveal style="--delay: 80ms;"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2Z"></path><path d="M18 16V11a6 6 0 1 0-12 0v5l-2 2h16l-2-2Z"></path></svg></span><h3 class="service-card__title">Instant notifications</h3><p class="service-card__copy">Alerts by email or messaging so you can respond quickly when a new inquiry arrives.</p></article>
-          <article class="service-card" data-reveal style="--delay: 160ms;"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg></span><h3 class="service-card__title">Mobile optimization</h3><p class="service-card__copy">Built to look strong and load cleanly on phones, where most local service traffic starts.</p></article>
+        <div aria-live="polite">
+          <div class="price-pair">
+            <div class="price">
+              <span class="price__amount"><span data-price="promoSetup">$135</span> <small data-price="currency">USD</small></span>
+              <span class="price__label">One-time payment</span>
+              <span class="price__promo" data-promo>Halloween promotion until October 31. Regular price: <s data-price="setup">$300</s></span>
+              <span class="price__detail">Building your website.</span>
+            </div>
+            <div class="price">
+              <span class="price__amount"><span data-price="monthly">$79</span> <small data-price="currency">USD</small></span>
+              <span class="price__label">Per month</span>
+              <span class="price__detail">Hosting, maintenance, presence on Google and your monthly report.</span>
+            </div>
+          </div>
+          <ul class="pricing__terms">
+            <li>Minimum commitment of 6 months.</li>
+            <li>Showing up on Google takes time: results usually appear between month 3 and month 6. We tell you that from the start.</li>
+            <li>Refer another professional who signs up and you get a month free.</li>
+          </ul>
+          <a class="button button--primary pricing__cta" href="#contacto"><span data-promo>Get the promotion</span><span data-no-promo>Get your free demo</span></a>
         </div>
       </div>
     </section>
 
-    <section class="section section--mist" id="process">
+    <section class="band band--paper">
       <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Process</p>
-          <h2 class="section-title">How it works</h2>
+        <div class="band-head">
+          <h2>How we're different</h2>
         </div>
-        <div class="process-grid">
-          <article class="process-step" data-reveal><span class="step-badge">1</span><h3 class="process-step__title">We talk</h3><p class="process-step__copy">We define your practice, ideal client, positioning, and the outcome you want the page to drive.</p></article>
-          <article class="process-step" data-reveal style="--delay: 100ms;"><span class="step-badge">2</span><h3 class="process-step__title">We build</h3><p class="process-step__copy">We create the website and landing page, shape the message, and prepare the lead capture flow.</p></article>
-          <article class="process-step" data-reveal style="--delay: 200ms;"><span class="step-badge">3</span><h3 class="process-step__title">You receive leads</h3><p class="process-step__copy">Clients find you, contact you, and you review real numbers in a clear monthly report.</p></article>
+        <div class="table-scroll">
+          <table class="compare">
+            <thead>
+              <tr>
+                <td></td>
+                <th scope="col" class="is-us">tuPresenzIA</th>
+                <th scope="col">Traditional agency</th>
+                <th scope="col">Building it yourself</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Who builds the website</th>
+                <td class="is-us">We do</td>
+                <td>The agency</td>
+                <td>You, in your free time</td>
+              </tr>
+              <tr>
+                <th scope="row">Who maintains it</th>
+                <td class="is-us">We do, included in the monthly fee</td>
+                <td>Depends on the contract</td>
+                <td>You</td>
+              </tr>
+              <tr>
+                <th scope="row">How you know it works</th>
+                <td class="is-us">A monthly report in plain language: contacts and clients</td>
+                <td>Technical reports that are hard to read</td>
+                <td>You work it out yourself</td>
+              </tr>
+              <tr>
+                <th scope="row">Ads and social media</th>
+                <td class="is-us">We create your promotions and run your ads on Instagram and Facebook; the report tells you what worked</td>
+                <td>Depends on the contract</td>
+                <td>You, by trial and error</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="band">
       <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Real results</p>
-          <h2 class="section-title">Professionals who show up online stop depending only on referrals</h2>
+        <div class="band-head">
+          <h2>A real project: ricardocarrion.com</h2>
         </div>
-
-        <div class="results-layout">
-          <div class="media-panel media-panel--dark" data-reveal>
-            <div class="browser-shell browser-shell--dark">
-              <div class="browser-top" aria-hidden="true"><span></span><span></span><span></span></div>
-              <div class="analytics-layout">
-                <div class="analytics-card"><h3>Monthly visibility report</h3><p>Exactly how many people visited, clicked, and reached out.</p><div class="analytics-bars" aria-hidden="true"><span style="height:34%;"></span><span style="height:45%;"></span><span style="height:58%;"></span><span style="height:69%;"></span><span style="height:80%;"></span><span style="height:94%;"></span></div></div>
-                <div class="analytics-note"><strong>Lead flow</strong><p>24/7 visibility while you focus on serving clients.</p></div>
-              </div>
-            </div>
+        <div class="case">
+          <figure class="shot">
+            <a class="shot__frame" href="https://ricardocarrion.com" target="_blank" rel="noopener" aria-label="Open ricardocarrion.com in a new tab">
+              <span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><b>ricardocarrion.com</b></span>
+              <span class="shot__view"><img src="../assets/ricardocarrion-site.jpg" alt="Screenshot of the ricardocarrion.com home page" width="1000" height="2031" loading="lazy"></span>
+            </a>
+            <figcaption>Hover to scroll through the page.</figcaption>
+          </figure>
+          <div class="case__body">
+            <p>A professional website for a data and artificial intelligence consultant: services, experience and direct contact on WhatsApp, in English and Spanish.</p>
+            <blockquote>
+              <p>"They built a custom website in less than a week. It turned out exactly as I imagined it: dynamic, distinctive and able to show my professional experience."</p>
+              <footer>Ricardo Carrión</footer>
+            </blockquote>
+            <a class="button button--ghost" href="https://ricardocarrion.com" target="_blank" rel="noopener">Visit ricardocarrion.com</a>
           </div>
-
-          <div class="metric-stack">
-            <div class="metric-item" data-reveal><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 16l4-4 3 3 7-7"></path><path d="M16 8h3v3"></path></svg></span><div><h3 class="metric-item__title">Traffic reports</h3><p class="metric-item__copy">See how many people visited your page and which offer attracted the most attention.</p></div></div>
-            <div class="metric-item" data-reveal style="--delay: 100ms;"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14v10H8l-3 3V6Z"></path></svg></span><div><h3 class="metric-item__title">Generated leads</h3><p class="metric-item__copy">Know how many visitors turned into real inquiries instead of guessing whether your site works.</p></div></div>
-            <div class="metric-item" data-reveal style="--delay: 200ms;"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18"></path><path d="M7 8 12 3l5 5"></path><path d="M7 16h10"></path></svg></span><div><h3 class="metric-item__title">Growth metrics</h3><p class="metric-item__copy">Track how your visibility grows over time and tie that growth back to business outcomes.</p></div></div>
-            <blockquote class="quote-card" data-reveal><p class="quote-card__text">"Independent professionals who build visibility online stop relying exclusively on referrals."</p><p class="quote-card__meta">Every month you can review the real numbers behind that shift.</p></blockquote>
-          </div>
-        </div>
-
-        <div class="mini-stat-grid">
-          <article class="mini-stat" data-reveal><strong>24/7</strong><p class="info-card__copy">Your presence keeps working while you sleep or serve clients.</p></article>
-          <article class="mini-stat" data-reveal style="--delay: 100ms;"><strong>100%</strong><p class="info-card__copy">Full transparency in every monthly report.</p></article>
-          <article class="mini-stat" data-reveal style="--delay: 200ms;"><strong>More</strong><p class="info-card__copy">More opportunities to grow your professional practice.</p></article>
         </div>
       </div>
     </section>
 
-    <section class="section" id="contact">
+    <section class="band band--paper" id="preguntas">
       <div class="container">
-        <div class="cta-shell">
-          <div class="cta-heading">
-            <p class="eyebrow">Start today</p>
-            <h2>Ready to stop waiting for referrals and start attracting clients consistently?</h2>
-            <p>We can build your presence this week.</p>
-          </div>
-
-          <div class="cta-grid">
-            <div class="cta-list" data-reveal>
-              <h3 class="cta-list__title">What you get when we begin:</h3>
-              <ul class="cta-checklist">
-                <li><svg class="checkmark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>AI-crafted professional website tailored to your practice</span></li>
-                <li><svg class="checkmark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Conversion-focused landing page with a clear offer</span></li>
-                <li><svg class="checkmark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Automatic lead capture and direct inquiry notifications</span></li>
-                <li><svg class="checkmark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Monthly reporting and ongoing support</span></li>
-              </ul>
-              <div class="cta-quote"><p>"If you are ready to stop waiting for referrals and start generating steady demand, we can build your presence this week."</p></div>
-            </div>
-
-            <div class="contact-card" data-reveal style="--delay: 120ms;">
-              <form class="contact-form" data-whatsapp-base="https://wa.me/528131222331" data-message-template="Hey, I'm {firstName} {lastName}, a {profession} from {country}, and I want to build my digital presence." data-status-message="Opening WhatsApp...">
-                <div class="form-field">
-                  <label for="first-name-en">First name</label>
-                  <input class="field-control" id="first-name-en" name="first_name" type="text" placeholder="Your first name" required>
-                </div>
-                <div class="form-field">
-                  <label for="last-name-en">Last name</label>
-                  <input class="field-control" id="last-name-en" name="last_name" type="text" placeholder="Your last name" required>
-                </div>
-                <div class="form-field">
-                  <label for="profession-en">Profession</label>
-                  <select class="field-control" id="profession-en" name="profession" required>
-                    <option value="">Select your profession</option>
-                    <option value="doctor">Doctor</option>
-                    <option value="lawyer">Lawyer</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="consultant">Consultant</option>
-                    <option value="therapist">Therapist</option>
-                    <option value="coach">Coach</option>
-                    <option value="accountant">Accountant</option>
-                    <option value="architect">Architect</option>
-                    <option value="realtor">Realtor</option>
-                    <option value="dentist">Dentist</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <div class="form-field" data-custom-field="profession" hidden>
-                  <label for="profession-other-en">Your profession</label>
-                  <input class="field-control" id="profession-other-en" name="profession_other" type="text" placeholder="Type your profession">
-                </div>
-                <div class="form-field">
-                  <label for="country-en">Country</label>
-                  <select class="field-control" id="country-en" name="country" required>
-                    <option value="">Select your country</option>
-                    <option value="Mexico">Mexico</option>
-                    <option value="United States">United States</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Ecuador">Ecuador</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Peru">Peru</option>
-                    <option value="Chile">Chile</option>
-                    <option value="Argentina">Argentina</option>
-                    <option value="Spain">Spain</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <div class="form-field" data-custom-field="country" hidden>
-                  <label for="country-other-en">Your country</label>
-                  <input class="field-control" id="country-other-en" name="country_other" type="text" placeholder="Type your country">
-                </div>
-                <button class="button button--primary button--wide button--progress" type="submit" disabled data-progress-button data-locked-template="Complete {completed} of {total} fields" data-ready-label="Chat on WhatsApp"><span data-progress-button-label>Complete 0 of 4 fields</span></button>
-                <p class="contact-note">Enter your first name, last name, profession, and country to unlock WhatsApp.</p>
-                <p class="form-status" aria-live="polite"></p>
-              </form>
-            </div>
-          </div>
+        <div class="band-head">
+          <h2>Frequently asked questions</h2>
         </div>
+        <div class="faq">
+          <details>
+            <summary>Do I need to know about technology?</summary>
+            <p>No. We build the website, maintain it and set up the measurement. You just tell us about your work and read your report each month.</p>
+          </details>
+          <details>
+            <summary>How do you know how many contacts became clients?</summary>
+            <p>The website records every person who writes to you through WhatsApp or the form. Once a month we ask you how many of them hired you and add it to your report.</p>
+          </details>
+          <details>
+            <summary>Why is there a 6-month minimum?</summary>
+            <p>Because showing up on Google is not immediate: it usually takes 3 to 6 months. That time lets us show you real results instead of promises.</p>
+          </details>
+          <details>
+            <summary>Do you guarantee a number of clients?</summary>
+            <p>No, and be wary of anyone who does. What we do guarantee is that every month you'll know exactly what your website generated, so you can decide where to invest with data.</p>
+          </details>
+          <details>
+            <summary>What does the monthly fee cover?</summary>
+            <p>The domain, hosting, maintenance of your website, the work to get you found on Google and your monthly report.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band--blue" id="contacto">
+      <div class="container contact">
+        <div class="contact__intro">
+          <h2 data-promo>Halloween promotion: your website for <span data-price="promoSetup">$135</span> <span data-price="currency">USD</span></h2>
+          <h2 data-no-promo>Get your free demo</h2>
+          <p class="lead" data-promo>Until October 31 we build your website for <span data-price="promoSetup">$135</span> instead of <span data-price="setup">$300</span>. The <span data-price="monthly">$79</span> monthly fee stays the same. Fill in your details, send us the message and we reply right there.</p>
+          <p class="lead" data-no-promo>Leave us your details and we'll continue on WhatsApp or by text message. We'll show you what your website and your report would look like.</p>
+        </div>
+
+        <form class="contact-form" data-whatsapp-base="https://wa.me/18576055571" data-sms-number="+18576055571" data-sms-ready-label="Continue by text message" data-sms-status-message="Opening your messages… If they don’t open, text us at +1 857 605 5571." data-message-template="Hi, I saw your website and I want the tuPresenzIA Halloween promotion. I'm {firstName} {lastName}, {profession} from {country}. Business: {business}. Website: {website}. Social media: {social}." data-message-template-regular="Hi, I saw your website and I'm interested in tuPresenzIA. I'm {firstName} {lastName}, {profession} from {country}, and I'd like my free demo. Business: {business}. Website: {website}. Social media: {social}." data-empty-value="none" data-status-message="Opening WhatsApp…">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="first-name-en">First name</label>
+              <input class="field-control" id="first-name-en" name="first_name" type="text" autocomplete="given-name" required>
+            </div>
+            <div class="form-field">
+              <label for="last-name-en">Last name</label>
+              <input class="field-control" id="last-name-en" name="last_name" type="text" autocomplete="family-name" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="business-en">Name of your business or practice</label>
+            <input class="field-control" id="business-en" name="business" type="text" autocomplete="organization" required>
+          </div>
+          <div class="form-field">
+            <label for="profession-en">Profession</label>
+            <select class="field-control" id="profession-en" name="profession" required>
+              <option value="">Select your profession</option>
+              <option value="psychologist">Psychologist</option>
+              <option value="nutritionist">Nutritionist</option>
+              <option value="lawyer">Lawyer</option>
+              <option value="physical therapist">Physical therapist</option>
+              <option value="coach">Coach</option>
+              <option value="doctor">Doctor</option>
+              <option value="dentist">Dentist</option>
+              <option value="accountant">Accountant</option>
+              <option value="consultant">Consultant</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-field" data-custom-field="profession" hidden>
+            <label for="profession-other-en">Your profession</label>
+            <input class="field-control" id="profession-other-en" name="profession_other" type="text">
+          </div>
+          <div class="form-field">
+            <label for="country-en">Country</label>
+            <select class="field-control" id="country-en" name="country" required>
+              <option value="">Select your country</option>
+              <option value="Ecuador" data-code="EC">Ecuador</option>
+              <option value="Mexico" data-code="MX">Mexico</option>
+              <option value="United States" data-code="US">United States</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-field" data-custom-field="country" hidden>
+            <label for="country-other-en">Your country</label>
+            <input class="field-control" id="country-other-en" name="country_other" type="text" autocomplete="country-name">
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="website-en">Your website, if you have one <small>(optional)</small></label>
+              <input class="field-control" id="website-en" name="website" type="text" inputmode="url" autocomplete="url">
+            </div>
+            <div class="form-field">
+              <label for="social-en">Instagram, Facebook or other profiles <small>(optional)</small></label>
+              <input class="field-control" id="social-en" name="social" type="text" inputmode="url">
+            </div>
+          </div>
+          <button class="button button--primary button--wide button--progress" type="submit" disabled data-progress-button data-locked-template="Complete {completed} of {total} fields" data-ready-label="Continue on WhatsApp"><span data-progress-button-label>Complete 0 of 5 fields</span></button>
+          <p class="contact-note">Continuing opens WhatsApp, or your text messages if you are in the United States, with the message ready to send.</p>
+          <p class="form-status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="site-footer__inner">
-      <div class="footer-panel">
-        <div class="footer-grid">
-          <div class="footer-column"><span class="footer-brand">tuPresenz<span>IA</span></span><p class="footer-copy">Professional digital presence, powered by Artificial Intelligence.</p><p class="footer-note">We turn your expertise into an online presence that attracts clients.</p></div>
-          <div class="footer-column"><h3>Contact</h3><div class="footer-links"><span>WhatsApp only after form</span><a href="#contact">Start a project</a></div></div>
-        </div>
-        <div class="footer-bottom"><span>&copy; <span data-year></span> tuPresenzIA. All rights reserved.</span><div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a></div></div>
-      </div>
+    <div class="container site-footer__inner">
+      <span class="wordmark">tuPresenz<span>IA</span></span>
+      <span>Your digital presence, measured in clients.</span>
+      <span>&copy; <span data-year></span> tuPresenzIA</span>
     </div>
   </footer>
 </body>

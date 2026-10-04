@@ -1,38 +1,226 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var revealNodes = document.querySelectorAll("[data-reveal]");
+// Prices per country or region. Edit here; both language pages read from this table.
+var PRICING = {
+  EC: { setup: "$100", promoSetup: "$45", monthly: "$50", currency: "USD", perClient: "$17" },
+  MX: { setup: "$1,900", promoSetup: "$855", monthly: "$950", currency: "MXN", perClient: "$317" },
+  US: { setup: "$300", promoSetup: "$135", monthly: "$79", currency: "USD", perClient: "$26" },
+  CA: { setup: "$300", promoSetup: "$135", monthly: "$79", currency: "USD", perClient: "$26" },
+  EU: { setup: "$300", promoSetup: "$135", monthly: "$79", currency: "USD", perClient: "$26" },
+  LATAM: { setup: "$100", promoSetup: "$45", monthly: "$50", currency: "USD", perClient: "$17" },
+  OTHER: { setup: "$300", promoSetup: "$135", monthly: "$79", currency: "USD", perClient: "$26" }
+};
 
-  if ("IntersectionObserver" in window) {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.18,
-      rootMargin: "0px 0px -40px 0px"
-    });
+// Launch promotion: 55% off the one-time payment in every country. After this date the page goes back to regular prices on its own.
+var PROMO_ENDS = new Date("2026-10-31T23:59:59");
+var PROMO_ACTIVE = new Date() <= PROMO_ENDS;
 
-    revealNodes.forEach(function (node) {
-      observer.observe(node);
-    });
-  } else {
-    revealNodes.forEach(function (node) {
-      node.classList.add("is-visible");
-    });
+if (!PROMO_ACTIVE) {
+  Object.keys(PRICING).forEach(function (code) {
+    PRICING[code].promoSetup = PRICING[code].setup;
+  });
+  document.documentElement.classList.add("promo-over");
+}
+
+// Web app URL of the Google Apps Script that adds each lead to a private Google Sheet.
+// It can only add rows; nobody can read the sheet through it. Leave empty to turn it off.
+var LEADS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzJpRfy53QABma5u1ClHHkknyP2mf0mxPX3gxob1EVbYIu_1EuNEXJdn0h-k3jfKJEP/exec";
+
+var LATAM_COUNTRIES = ["AR", "BO", "BR", "CL", "CO", "CR", "CU", "DO", "GT", "HN", "NI", "PA", "PE", "PR", "PY", "SV", "UY", "VE"];
+
+var EUROPE_COUNTRIES = [
+  "AT", "BE", "BG", "CH", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GB", "GR", "HR", "HU",
+  "IE", "IS", "IT", "LT", "LU", "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK"
+];
+
+var COUNTRY_STORAGE_KEY = "tupresenzia-country";
+var DETECTED_STORAGE_KEY = "tupresenzia-detected";
+
+var MX_TIMEZONES = [
+  "America/Mexico_City", "America/Monterrey", "America/Tijuana", "America/Cancun",
+  "America/Merida", "America/Chihuahua", "America/Hermosillo", "America/Mazatlan",
+  "America/Matamoros", "America/Ojinaga", "America/Bahia_Banderas", "America/Ciudad_Juarez"
+];
+
+var US_TIMEZONES = [
+  "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
+  "America/Phoenix", "America/Anchorage", "America/Detroit", "America/Boise",
+  "America/Juneau", "Pacific/Honolulu"
+];
+
+function regionFor(isoCountry) {
+  if (isoCountry === "EC" || isoCountry === "MX" || isoCountry === "US" || isoCountry === "CA") {
+    return isoCountry;
   }
 
-  var currentHash = window.location.hash;
+  if (LATAM_COUNTRIES.indexOf(isoCountry) !== -1) {
+    return "LATAM";
+  }
+
+  if (EUROPE_COUNTRIES.indexOf(isoCountry) !== -1) {
+    return "EU";
+  }
+
+  return "OTHER";
+}
+
+function readStorage(name, key) {
+  try {
+    var value = window[name].getItem(key);
+    return PRICING[value] ? value : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function writeStorage(name, key, value) {
+  try {
+    window[name].setItem(key, value);
+  } catch (error) {
+    // Storage can be blocked; the value still applies for this visit.
+  }
+}
+
+// Used only when the lookup by IP fails.
+function guessFromTimeZone() {
+  var timeZone = "";
+
+  try {
+    timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+  } catch (error) {
+    timeZone = "";
+  }
+
+  if (timeZone === "America/Guayaquil" || timeZone === "Pacific/Galapagos") {
+    return "EC";
+  }
+
+  if (MX_TIMEZONES.indexOf(timeZone) !== -1) {
+    return "MX";
+  }
+
+  if (US_TIMEZONES.indexOf(timeZone) !== -1 || timeZone.indexOf("America/Indiana") === 0 || timeZone.indexOf("America/Kentucky") === 0) {
+    return "US";
+  }
+
+  var fallback = document.documentElement.getAttribute("data-default-country");
+  return PRICING[fallback] ? fallback : "EC";
+}
+
+// Asks a public service which country the visitor's IP belongs to.
+function lookupCountryByIp(callback) {
+  var finished = false;
+
+  var finish = function (isoCountry) {
+    if (!finished) {
+      finished = true;
+      callback(isoCountry);
+    }
+  };
+
+  window.setTimeout(function () {
+    finish(null);
+  }, 2500);
+
+  fetch("https://www.cloudflare.com/cdn-cgi/trace")
+    .then(function (response) {
+      return response.text();
+    })
+    .then(function (text) {
+      var match = /loc=([A-Z]{2})/.exec(text);
+
+      if (!match) {
+        throw new Error("No country in response");
+      }
+
+      finish(match[1]);
+    })
+    .catch(function () {
+      return fetch("https://api.country.is/")
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          finish(data && data.country ? String(data.country) : null);
+        });
+    })
+    .catch(function () {
+      finish(null);
+    });
+}
+
+function resolveCountry(callback) {
+  var known = readStorage("localStorage", COUNTRY_STORAGE_KEY) || readStorage("sessionStorage", DETECTED_STORAGE_KEY);
+
+  if (known) {
+    callback(known);
+    return;
+  }
+
+  if (!("fetch" in window)) {
+    callback(guessFromTimeZone());
+    return;
+  }
+
+  lookupCountryByIp(function (isoCountry) {
+    if (!isoCountry) {
+      callback(guessFromTimeZone());
+      return;
+    }
+
+    var code = regionFor(isoCountry);
+    writeStorage("sessionStorage", DETECTED_STORAGE_KEY, code);
+    callback(code);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  var activeCountry = null;
+
+  var applyCountry = function (code, remember) {
+    var prices = PRICING[code];
+
+    if (!prices || code === activeCountry) {
+      return;
+    }
+
+    activeCountry = code;
+
+    document.querySelectorAll("[data-price]").forEach(function (node) {
+      node.textContent = prices[node.getAttribute("data-price")];
+    });
+
+    document.querySelectorAll("[data-country-select]").forEach(function (select) {
+      select.value = code;
+    });
+
+    document.querySelectorAll('.contact-form [name="country"]').forEach(function (select) {
+      var option = select.querySelector('option[data-code="' + code + '"]');
+
+      if (option && select.value !== option.value) {
+        select.value = option.value;
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    if (remember) {
+      writeStorage("localStorage", COUNTRY_STORAGE_KEY, code);
+    }
+  };
+
+  document.querySelectorAll("[data-country-select]").forEach(function (select) {
+    select.addEventListener("change", function () {
+      applyCountry(select.value, true);
+    });
+  });
+
   document.querySelectorAll(".lang-option").forEach(function (link) {
     link.addEventListener("click", function (event) {
-      if (!currentHash) {
+      if (!window.location.hash) {
         return;
       }
 
       event.preventDefault();
       var url = new URL(link.getAttribute("href"), window.location.href);
-      url.hash = currentHash;
+      url.hash = window.location.hash;
       window.location.href = url.href;
     });
   });
@@ -41,170 +229,38 @@ document.addEventListener("DOMContentLoaded", function () {
     var submitButton = form.querySelector('button[type="submit"]');
     var progressButton = form.querySelector("[data-progress-button]");
     var progressButtonLabel = form.querySelector("[data-progress-button-label]");
-    var dynamicPlaceholderTimers = [];
 
-    var clearDynamicPlaceholderTimers = function () {
-      dynamicPlaceholderTimers.forEach(function (timerId) {
-        window.clearTimeout(timerId);
-      });
-      dynamicPlaceholderTimers = [];
-    };
-
-    var queueDynamicPlaceholderTimer = function (callback, delay) {
-      var timerId = window.setTimeout(callback, delay);
-      dynamicPlaceholderTimers.push(timerId);
-      return timerId;
-    };
-
-    var setupDynamicPlaceholder = function (field) {
-      var rawValues = field.getAttribute("data-dynamic-placeholders");
-      var values;
-      var activeIndex = 0;
-      var charIndex = 0;
-      var deleting = false;
-      var paused = false;
-
-      if (!rawValues) {
-        return;
-      }
-
-      values = rawValues.split("|").map(function (item) {
-        return item.trim();
-      }).filter(Boolean);
-
-      if (!values.length) {
-        return;
-      }
-
-      var tick = function () {
-        var currentValue;
-        var nextDelay;
-
-        if (paused || String(field.value || "").trim() !== "") {
-          return;
-        }
-
-        currentValue = values[activeIndex];
-
-        if (!deleting) {
-          charIndex += 1;
-          field.setAttribute("placeholder", currentValue.slice(0, charIndex));
-
-          if (charIndex >= currentValue.length) {
-            deleting = true;
-            nextDelay = 1350;
-          } else {
-            nextDelay = 75;
-          }
-        } else {
-          charIndex -= 1;
-          field.setAttribute("placeholder", currentValue.slice(0, Math.max(charIndex, 0)));
-
-          if (charIndex <= 0) {
-            deleting = false;
-            activeIndex = (activeIndex + 1) % values.length;
-            nextDelay = 280;
-          } else {
-            nextDelay = 40;
-          }
-        }
-
-        queueDynamicPlaceholderTimer(tick, nextDelay);
-      };
-
-      field.addEventListener("focus", function () {
-        paused = true;
-      });
-
-      field.addEventListener("blur", function () {
-        if (String(field.value || "").trim() !== "") {
-          return;
-        }
-
-        paused = false;
-        clearDynamicPlaceholderTimers();
-        queueDynamicPlaceholderTimer(tick, 180);
-      });
-
-      field.addEventListener("input", function () {
-        clearDynamicPlaceholderTimers();
-
-        if (String(field.value || "").trim() !== "") {
-          field.setAttribute("placeholder", "");
-          return;
-        }
-
-        paused = false;
-        activeIndex = 0;
-        charIndex = 0;
-        deleting = false;
-        queueDynamicPlaceholderTimer(tick, 180);
-      });
-
-      field.setAttribute("placeholder", "");
-      queueDynamicPlaceholderTimer(tick, 320);
+    // Few people in the United States use WhatsApp, so that country continues by text message.
+    var usesSms = function () {
+      var select = form.querySelector('[name="country"]');
+      var option = select ? select.options[select.selectedIndex] : null;
+      return Boolean(form.getAttribute("data-sms-number")) && Boolean(option) && option.getAttribute("data-code") === "US";
     };
 
     var getActiveRequiredFields = function () {
-      return Array.from(form.querySelectorAll("input[required], select[required], textarea[required]")).filter(function (field) {
+      return Array.from(form.querySelectorAll("input[required], select[required]")).filter(function (field) {
         return !field.disabled;
       });
     };
 
-    var getFieldLabelNode = function (field) {
-      return field.id ? form.querySelector('label[for="' + field.id + '"]') : null;
-    };
-
-    var syncFieldLabelStatus = function (field, isComplete) {
-      var label = getFieldLabelNode(field);
-      var indicator;
-
-      if (!label) {
-        return;
-      }
-
-      indicator = label.querySelector(".field-label__status");
-
-      if (isComplete) {
-        if (indicator) {
-          indicator.remove();
-        }
-        return;
-      }
-
-      if (!indicator) {
-        indicator = document.createElement("span");
-        indicator.className = "field-label__status";
-        indicator.setAttribute("aria-hidden", "true");
-        label.appendChild(indicator);
-      }
-    };
-
     var renderProgress = function () {
       var fields = getActiveRequiredFields();
-      var completed = 0;
+      var completed = fields.filter(function (field) {
+        return field.checkValidity() && String(field.value || "").trim() !== "";
+      }).length;
 
-      fields.forEach(function (field) {
-        var isComplete = field.checkValidity() && String(field.value || "").trim() !== "";
+      if (!progressButton) {
+        return;
+      }
 
-        if (isComplete) {
-          completed += 1;
-        }
+      var lockedTemplate = progressButton.getAttribute("data-locked-template") || "{completed}/{total}";
+      var readyLabel = (usesSms() && progressButton.form.getAttribute("data-sms-ready-label")) || progressButton.getAttribute("data-ready-label") || "Ready";
+      progressButton.style.setProperty("--progress", String(fields.length ? (completed / fields.length) * 100 : 0) + "%");
 
-        syncFieldLabelStatus(field, isComplete);
-      });
-
-      if (progressButton) {
-        var progressPercent = fields.length ? (completed / fields.length) * 100 : 0;
-        var lockedTemplate = progressButton.getAttribute("data-locked-template") || "{completed}/{total}";
-        var readyLabel = progressButton.getAttribute("data-ready-label") || "Ready";
-        progressButton.style.setProperty("--progress", String(progressPercent) + "%");
-
-        if (progressButtonLabel) {
-          progressButtonLabel.textContent = completed === fields.length && fields.length > 0
-            ? readyLabel
-            : lockedTemplate.replace("{completed}", String(completed)).replace("{total}", String(fields.length));
-        }
+      if (progressButtonLabel) {
+        progressButtonLabel.textContent = completed === fields.length && fields.length > 0
+          ? readyLabel
+          : lockedTemplate.replace("{completed}", String(completed)).replace("{total}", String(fields.length));
       }
     };
 
@@ -242,7 +298,19 @@ document.addEventListener("DOMContentLoaded", function () {
       syncCustomField();
     });
 
-    form.querySelectorAll("input, select, textarea").forEach(function (field) {
+    var countrySelect = form.querySelector('[name="country"]');
+    if (countrySelect) {
+      countrySelect.addEventListener("change", function () {
+        var option = countrySelect.options[countrySelect.selectedIndex];
+        var code = option ? option.getAttribute("data-code") : null;
+
+        if (code) {
+          applyCountry(code, true);
+        }
+      });
+    }
+
+    form.querySelectorAll("input, select").forEach(function (field) {
       var updateFormState = function () {
         var status = form.querySelector(".form-status");
         if (status) {
@@ -253,10 +321,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       field.addEventListener("input", updateFormState);
       field.addEventListener("change", updateFormState);
-    });
-
-    form.querySelectorAll("input[data-dynamic-placeholders]").forEach(function (field) {
-      setupDynamicPlaceholder(field);
     });
 
     syncSubmitState();
@@ -274,33 +338,99 @@ document.addEventListener("DOMContentLoaded", function () {
       var lastName = String(formData.get("last_name") || "").trim();
       var profession = String(formData.get("profession") || "").trim();
       var country = String(formData.get("country") || "").trim();
-      var customProfession = String(formData.get("profession_other") || "").trim();
-      var customCountry = String(formData.get("country_other") || "").trim();
 
       if (profession === "other") {
-        profession = customProfession;
+        profession = String(formData.get("profession_other") || "").trim();
       }
 
       if (country === "other") {
-        country = customCountry;
+        country = String(formData.get("country_other") || "").trim();
       }
 
-      var template = form.getAttribute("data-message-template") || "Hello, I want to build my digital presence.";
+      var emptyValue = form.getAttribute("data-empty-value") || "-";
+      var business = String(formData.get("business") || "").trim();
+      var website = String(formData.get("website") || "").trim() || emptyValue;
+      var social = String(formData.get("social") || "").trim() || emptyValue;
+      var template = (!PROMO_ACTIVE && form.getAttribute("data-message-template-regular")) || form.getAttribute("data-message-template") || "Hello, I want my free demo.";
       var message = template
         .replace("{firstName}", firstName)
         .replace("{lastName}", lastName)
         .replace("{profession}", profession)
-        .replace("{country}", country);
-      var whatsappBase = form.getAttribute("data-whatsapp-base") || "https://wa.me/528131222331";
+        .replace("{country}", country)
+        .replace("{business}", business)
+        .replace("{website}", website)
+        .replace("{social}", social);
+      var sendBySms = usesSms();
+      var whatsappBase = form.getAttribute("data-whatsapp-base") || "https://wa.me/18576055571";
       var whatsappUrl = whatsappBase + "?text=" + encodeURIComponent(message);
 
       if (status) {
-        status.textContent = form.getAttribute("data-status-message") || "";
+        status.textContent = (sendBySms && form.getAttribute("data-sms-status-message")) || form.getAttribute("data-status-message") || "";
+      }
+
+      if (LEADS_ENDPOINT && navigator.sendBeacon) {
+        navigator.sendBeacon(LEADS_ENDPOINT, JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          business: business,
+          profession: profession,
+          country: country,
+          website: website,
+          social: social,
+          language: document.documentElement.lang,
+          promotion: PROMO_ACTIVE ? "halloween" : "none",
+          method: sendBySms ? "sms" : "whatsapp"
+        }));
+      }
+
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "generate_lead", { country: country, profession: profession, method: sendBySms ? "sms" : "whatsapp", promotion: PROMO_ACTIVE ? "halloween" : "none" });
+      }
+
+      if (sendBySms) {
+        window.location.href = "sms:" + form.getAttribute("data-sms-number") + "?&body=" + encodeURIComponent(message);
+        return;
       }
 
       window.open(whatsappUrl, "_blank", "noopener");
     });
   });
+
+  resolveCountry(function (code) {
+    applyCountry(code, false);
+    document.documentElement.classList.remove("is-locating");
+  });
+
+  // The report in the hero counts up once, in step with its rows appearing.
+  var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reducedMotion && "requestAnimationFrame" in window) {
+    document.querySelectorAll("[data-count]").forEach(function (node) {
+      var target = Number(node.getAttribute("data-count"));
+      var delay = Number(node.getAttribute("data-count-delay") || 0);
+      var duration = 700;
+
+      node.textContent = "0";
+
+      window.setTimeout(function () {
+        var start = null;
+
+        var step = function (timestamp) {
+          if (start === null) {
+            start = timestamp;
+          }
+
+          var progress = Math.min((timestamp - start) / duration, 1);
+          node.textContent = String(Math.round(target * progress));
+
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          }
+        };
+
+        window.requestAnimationFrame(step);
+      }, delay);
+    });
+  }
 
   document.querySelectorAll("[data-year]").forEach(function (node) {
     node.textContent = String(new Date().getFullYear());
